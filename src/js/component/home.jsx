@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getTodoList } from '../../services/getTodoList';
+import { updateTodoList } from '../../services/updateTodoList';
 import "../../styles/index.css";
 
 function Home() {
@@ -10,7 +12,7 @@ function Home() {
     e.preventDefault();
     const task = newTask.trim();
     if(task){
-      setTasks([...tasks, task]);
+      setTasks([...tasks, { label: task, done: false }]);
       setNewTask('');
     }
   }
@@ -20,6 +22,15 @@ function Home() {
     updatedTasks.splice(index, 1);
     setTasks(updatedTasks);
   }
+
+useEffect(() => {
+  getTodoList().then(response => setTasks(response))
+}, []);
+
+useEffect(() => {
+  updateTodoList(tasks)
+}, [tasks]);
+
 
   return (
     <div>
@@ -39,7 +50,7 @@ function Home() {
       {tasks.length === 0 && <p>No tasks, add a task</p>}
         {tasks.map((task, index) => (
           <li key={index} onMouseEnter={() => setHoverIndex(index)} onMouseLeave={() => setHoverIndex(null)}>
-            {task}
+            {task.label}
             {hoverIndex === index && <span onClick={() => handleDelete(index)}><i className="fa-solid fa-x"></i></span>}
           </li>
         ))}

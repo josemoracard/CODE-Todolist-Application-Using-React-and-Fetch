@@ -33,8 +33,9 @@ li {
     border-width: 0px 0px 1px 0px;
     border-style: solid;
     padding-left: 32px;
-    padding: 10px 0px 10px 32px;
+    padding: 10px 10px 10px 32px;
     font-size: 25px;
+    overflow-wrap: break-word;
 }
 
 input {
